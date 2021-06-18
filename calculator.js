@@ -10,31 +10,13 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// function getCurrentUIValues() {
-
-//     return {
-//       amount: +(document.getElementById("loan-amount").value), // does + make the input into an integer
-//       years: +(document.getElementById("loan-years").value),
-//       rate: +(document.getElementById("loan-rate").value),
-//     }
-
-// }
-
+// NB I'm not doing any error handling in this script.
 
 function getCurrentUIValues() {
 
   let inputAmount = +(document.getElementById("loan-amount").value);
   let inputTerm = +(document.getElementById("loan-years").value);
   let inputRate = +(document.getElementById("loan-rate").value);
-
-  try {
-    if (isNaN(inputAmount)) throw "Invalid Loan Amount entry.";
-    else if (isNaN(inputTerm) || inputTerm === 0) throw "Invalid Term in Years";
-    else if (isNaN(inputRate) || inputRate === 0) throw "Invalid Yearly Rate";
-  }
-  catch(err) {
-    console.log(err);
-  }
 
   return {
     amount: inputAmount,
@@ -76,6 +58,16 @@ function update() {
 // calculate the monthly payment.  The output should be a string
 // that always has 2 decimal places.
 function calculateMonthlyPayment(values) {
+
+  if (isNaN(values.amount)) {
+    throw new Error("Invalid Loan Amount entry.");
+  }
+  else if (isNaN(values.years) || values.years === 0) {
+    throw new Error("Invalid Term in Years");
+  }
+  else if (isNaN(values.rate) || values.rate === 0) {
+    throw new Error("Invalid Yearly Rate");
+  }
 
   // capture values for calculation, ensure values remain floating point values
   let P = values.amount;
